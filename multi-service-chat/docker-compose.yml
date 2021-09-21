@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  hub-service: #SERVICE 1
+    build: ./observatory  
+    volumes:
+      - ./observatory:/usr/src/app ##MOUNTING POINT
+    ports:
+      - 5001:80  # 5001 is used because its public. (my url port:container's port)
+  website: #SERVICE 2
+    image: php:apache  #AUTO PULL 
+    volumes:
+      - ./website:/var/www/html 
+    ports:
+      - 5000:80  #5000 access php page
+    depends_on:
+      - hub-service  # depends on API 
